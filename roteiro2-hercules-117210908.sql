@@ -41,5 +41,58 @@ INSERT INTO tarefas VALUES (2147483648, 'limpar portas do térreo', '32323232955
 
 -- 3° Questão
 
+-- corrigindo a penúltima coluna para evitar a inserção. 
+
+ALTER TABLE tarefas ALTER COLUMN prioridade TYPE SMALLINT;
+
+-- Corrigido tipo do valor de inteiro para smallint para não aceitar valores maiores que 32767
+
+-- Não inserção dos seguintes valores:
+
+INSERT INTO tarefas VALUES (2147483649, 'limpar portas da entrada principal', '32322525199', 32768, 'A');
+
+INSERT INTO tarefas VALUES (2147483650, 'limpar janelas da entrada principal', '32322525199', 32769, 'A');
+
+-- Inserindo valores que devem ser possíveis.
+
+INSERT INTO tarefas VALUES (2147483651, 'limpar portas do 1o andar', '32323232911', 32767, 'A');
+
+INSERT INTO tarefas VALUES (2147483652, 'limpar portas do 2o andar', '32323232911', 32766, 'A');
+
+-- 4° QUESTÃO 
+
+-- alteração do nome da 1° coluna 	
+ALTER TABLE tarefas RENAME COLUMN id_tarefa TO id;
+
+-- Colocando restrições nas colunas para não receber null (1)
+
+ALTER TABLE tarefas ALTER COLUMN id SET NOT null;
+ALTER TABLE tarefas ALTER COLUMN descricao SET NOT null;
+ALTER TABLE tarefas ALTER COLUMN func_resp_cpf SET NOT null;
+ALTER TABLE tarefas ALTER COLUMN prioridade SET NOT null;
+ALTER TABLE tarefas ALTER COLUMN status SET NOT null;
+
+-- Alteração para evitar o erro
+
+DELETE FROM tarefas WHERE status is null;
+
+-- repetindo o script do (1)
+
+-- 5° questão
+
+-- Adicionado uma restrição para evitar id's de tarefas, iguais.
+
+ALTER TABLE tarefas ADD CONSTRAINT tarefas_id_pkey PRIMARY KEY (id);
+
+-- inserção deve acontecer:
+
+INSERT INTO tarefas VALUES (2147483653, 'limpar portas do 1o andar', '32323232911', 2, 'A');
+
+-- Iserção não deve acontecer:
+
+INSERT INTO tarefas VALUES (2147483653, 'aparar a grama da área frontal', '32323232911', 3, 'A');
+
+-- 6° Questão
+
 
 
