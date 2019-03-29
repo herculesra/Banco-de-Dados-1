@@ -112,10 +112,39 @@ INSERT INTO tarefas VALUES (4567891234, 'limpar banheiro CAA 1o andar', '0000000
 UPDATE tarefas SET status = 'P' WHERE status = 'A';
 UPDATE tarefas SET status = 'C' WHERE status = 'F';
 
+-- Aplicando restrição.
+
 ALTER TABLE tarefas ADD CONSTRAINT tarefas_chk_status CHECK (status IN ('P','C','E'));
 
--- restrição terminada.
+-- 7° QUESTÃO
 
--- QUESTÃO 7
+-- Update para 2 tuplas:
+
+UPDATE tarefas SET prioridade = 32767 WHERE prioridade = 2;
+UPDATE tarefas SET prioridade = 32766 WHERE prioridade = 1;
+
+-- Corrigindo update errado:
+
+UPDATE tarefas SET prioridade = 2 WHERE prioridade = 32767;
+UPDATE tarefas SET prioridade = 1 WHERE prioridade = 32766;
+
+-- Insert Constraint in column prioridade
+
+ALTER TABLE tarefas ADD CONSTRAINT tarefas_chk_prioridade CHECK (0 <= prioridade AND prioridade <= 5);
+
+-- 8° Questão
+
+CREATE TABLE funcionario(
+	cpf VARCHAR(11) PRIMARY KEY,
+	data_nasc VARCHAR(20) NOT NULL,
+	nome VARCHAR(40) NOT NULL,
+	funcao VARCHAR(11) NOT NULL,
+	nivel CHAR(1) NOT NULL,
+	superior_cpf VARCHAR(11) REFERENCES funcionario (cpf),
+	CHECK (nivel IN ('J', 'P', 'S'))
+);
+	
+
+
 
 
