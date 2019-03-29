@@ -94,5 +94,28 @@ INSERT INTO tarefas VALUES (2147483653, 'aparar a grama da área frontal', '3232
 
 -- 6° Questão
 
+-- Questão 6.A)
+
+ALTER TABLE tarefas ADD CONSTRAINT tarefas_chk_cpf_valido CHECK (LENGTH(func_resp_cpf) = 11);
+
+-- Testando inserção com 10 caracters
+
+INSERT INTO tarefas VALUES (1234567890, 'limpar o banheiro do lcc2', '1234567890', 2, 'A');
+
+-- Testando inserção com 12 caracters
+
+INSERT INTO tarefas VALUES (4567891234, 'limpar banheiro CAA 1o andar', '0000000001001', 5, 'A');
+
+-- QUESTÃO 6.B)
+-- Fazendo updates.
+
+UPDATE tarefas SET status = 'P' WHERE status = 'A';
+UPDATE tarefas SET status = 'C' WHERE status = 'F';
+
+ALTER TABLE tarefas ADD CONSTRAINT tarefas_chk_status CHECK (status IN ('P','C','E'));
+
+-- restrição terminada.
+
+-- QUESTÃO 7
 
 
