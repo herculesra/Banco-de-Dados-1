@@ -141,9 +141,43 @@ CREATE TABLE funcionario(
 	funcao VARCHAR(11) NOT NULL,
 	nivel CHAR(1) NOT NULL,
 	superior_cpf VARCHAR(11) REFERENCES funcionario (cpf),
-	CHECK (nivel IN ('J', 'P', 'S'))
+	CHECK (nivel IN ('J', 'P', 'S')),
+	CHECK (funcao = 'LIMPEZA' AND superior_cpf != null)
 );
-	
+
+-- DROPPED/MODIFIED constraint 
+
+ALTER TABLE funcionario DROP CONSTRAINT funcionario_check;
+
+ALTER TABLE funcionario ADD CONSTRAINT funcionario_funcao_check CHECK ((funcao = 'LIMPEZA' AND superior_cpf != null) OR funcao = 'SUP_LIMPEZA');
+
+-- Insert works on
+
+INSERT INTO funcionario (cpf, data_nasc, nome, funcao, nivel, superior_cpf) VALUES ('12345678911', '1980-05-07', 'Pedro da Silva', 'SUP_LIMPEZA', 'S', null);
+
+INSERT INTO funcionario (cpf, data_nasc, nome, funcao, nivel, superior_cpf) VALUES ('12345678912', '1980-03-08', 'Jose da Silva', 'LIMPEZA', 'J', '12345678911');
+
+-- Didn't insert on
+
+INSERT INTO funcionario (cpf, data_nasc, nome, funcao, nivel, superior_cpf) VALUES ('12345678913', '1980-04-09', 'joao da Silva', 'LIMPEZA', 'J', null);
+
+-- não funcionou :(
+-- ...
+-- deletar tupla
+
+DELETE FROM funcionario WHERE cpf = '12345678913';
+
+-- modificar a constraint:
+
+ALTER TABLE funcionario DROP CONSTRAINT funcionario_funcao_check;
+
+ALTER TABLE funcionario ADD CONSTRAINT funcionario_funcao_check CHECK ((funcao = 'LIMPEZA' AND superior_cpf IS NOT null) OR funcao = 'SUP_LIMPEZA');
+
+-- FUNCIONOU!!! :D
+
+-- 9° Questão
+
+
 
 
 
