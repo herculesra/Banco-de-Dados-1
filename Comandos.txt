@@ -1,0 +1,223 @@
+A seguir, lista de comandos vistos em sala de aula para SQL:
+
+// cria uma relação (nova tabela)
+CREATE TABLE nomeTabela(
+    nome_atributo1 tipo_atributo1,  
+    nome_atributo2 tipo_atributo2
+);
+
+// deletar tabela
+
+DROP TABLE nomeTabela; // SE A TABELA TIVER CONSTRAINT NÃO PODE DAR DROP
+
+// criando tabela com CONSTRAINT (Primary Key)
+
+CREATE TABLE nomeTabela(
+    nome_atributo1 tipo_atributo1 PRIMARY KEY,
+    nome_atributo2 tipo_atributo2
+);
+
+CREATE TABLE nomeTabela(
+   nome_atributo1 tipo_atributo1 CONSTRAINT nome_da_constraint PRIMARY KEY,
+   nome_atributo2 tipo_atributo2
+);
+
+CREATE TABLE nome_da_tabela(
+    nome_atributo1 tipo_atributo1,
+    nome_atributo2 tipo_atributo2,
+    PRIMARY KEY(atributo1)
+);
+
+// com mais de um atributo na chave:
+
+CREATE TABLE nome_da_tabela(
+    nome_atributo1 tipo_atributo1,
+    nome_atributo2 tipo_atributo2,
+    CONSTRAINT nome_da_constraint PRIMARY KEY(atributo1, atributo2)
+);
+
+CREATE TABLE nome_da_tabela(
+    nome_atributo1 tipo_atributo1,
+    nome_atributo2 tipo_atributo2,
+    PRIMARY KEY(atributo1, atributo2)
+);
+
+// Exemplos de uso de CREATE TABLE com constraint de chave estrangeira
+
+CREATE TABLE nome_da_tabela(
+    nome_atributo1 tipo_atributo1,
+    nome_atributo2 tipo_atributo2,
+    nome_atributo3 tipo_atributo3 REFERENCES nome_outra_tab (atributo_outra_tab),
+    nome_atributo4 tipo_atributo4
+);
+
+CREATE TABLE nome_da_tabela(
+    nome_atributo1 tipo_atributo1,
+    nome_atributo2 tipo_atributo2,
+    nome_atributo3 tipo_atributo3,
+    nome_atributo4 tipo_atributo4,
+    FOREIGN KEY (atributo1_desta_tab, atributo2_desta_tabe) REFERENCES nome_outra_tab (atributo1_outra_taba, atributo2_outra_tab)
+);
+
+CREATE TABLE nome_da_tabela(
+    nome_atributo1 tipo_atributo1,
+    nome_atributo2 tipo_atributo2,
+    nome_atributo3 tipo_atributo3,
+    nome_atributo4 tipo_atributo4,
+    CONSTRAINT nomeda_da_constraint FOREIGN KEY (atributo1_desta_tab, atributo2_desta_tabe) REFERENCES nome_outra_tab (atributo1_outra_taba, atributo2_outra_tab)
+);
+
+// Exemplos de CREATE TABLE com Constraint de NOT NULL:
+
+CREATE TABLE nome_da_tabela(
+    nome_atributo1 tipo_atributo1,
+    nome_atributo2 tipo_atributo2 NOT NULL
+    nome_atributo3 tipo_atributo3,
+    nome_atributo4 tipo_atributo4 NOT NULL
+   
+);
+
+// Exemplos de Alter Table:
+
+ALTER TABLE nome_atual_tabela RENAME TO nome_novo;
+
+ALTER TABLE nome_tabela ADD COLUMN nome_atributo varchar(30);
+
+ALTER TABLE nome_tabela DROP COLUMN nome_atributo RESTRICT;
+
+ALTER TABLE nome_tabela RENAME COLUMN nome_atual_atributo TO nome_novo_atributo;
+
+ALTER TABLE nome_tabela ALTER COLUMN nome_atributo SET NOT NULL;
+
+ALTER TABLE nnome_tabela ALTER COLUMN nome_atributo DROP NOT NULL;
+
+ALTER TABLE nome_tabela DROP CONSTRAINT nome_da_constraint;
+
+ALTER TABLE nome_tabela DROP CONSTRAINT nome_da_constraint;
+
+ALTER TABLE nome_da_tabela ADD CONSTRAINT nome_constraint FOREIGN KEY (atributo) REFERENCES outra_tabela (atributo);
+
+ALTER TABLE nome_tabela ADD PRIMARY KEY (atributo);
+
+// Definições dos comportamentos das FOREIGN KEY para os comandos DELETE e UPDATE
+// sintaxe: 
+
+... ON DELETE[RESTRICT | CASCADE | SET NULL]
+... ON UPDATE[RESTRICT | CASCADE | SET NULL]
+
+// exemplos:
+
+ALTER TABLE nome_da_tabela ADD CONSTRAINT nome_constraint FOREIGN KEY (atributo) REFERENCES outra_tabela (atributo) ON DELETE CASCADE;
+
+ALTER TABLE nome_da_tabela ADD CONSTRAINT nome_constraint FOREIGN KEY (atributo) REFERENCES outra_tabela (atributo) ON UPDATE SET NULL;
+
+ALTER TABLE nome_da_tabela ADD CONSTRAINT nome_constraint FOREIGN KEY (atributo) REFERENCES outra_tabela (atributo) ON DELETE CASCADE ON UPDATE CASCADE;
+
+// INSERÇÃO de uma única linha, com valores para todas as colunas (na ordem padrão)
+
+INSERT INTO nomeTabela VALUES
+    (valorAtrib1, valorAtrib2, valorAtrib3, valorAtrib4);
+
+// Inserção de um única linha, especificando as colunas
+
+INSERT INTO nomeTabela (nomeAtrib1, nomeAtrib2, nomeAtrib3, nomeAtrib4) VALUES
+    (valorAtrib1, valorAtrib2, valorAtrib3, valorAtrib4);
+
+// inserção de múltiplas linhas
+
+INSERT INTO nomeTabela (nomeAtrib1, nomeAtrib2, nomeAtrib3, nomeAtrib4) VALUES
+    (valorAtrib1, valorAtrib2, valorAtrib3, valorAtrib4),
+    (valorAtrib1, valorAtrib2, valorAtrib3, valorAtrib4);
+
+// Consulta aos Dados do BD
+
+SELECT nomeAtrib1, nomeAtrib2 FROM nomeTabela WHERE condicaoDeSelecao;
+
+// Ex.:
+
+SELECT nome, endereco FROM empregado WHERE salario > 1500;
+
+// REMOÇÃO DE DADOS DO BD
+
+// Remove todas as tuplas de uma tabela
+
+DELETE FROM nomeTabela;
+
+// Remove tuplas que satisfazem alguma condição de seleção
+
+DELETE FROM tasks WHERE status = 'DONE';
+
+// Caso deseje os detalhes das linhas removidas
+
+DELETE FROM tasks WHERE status = 'DONE' RETURNING*;
+
+// ATUALIZAR DADOS DO BD
+
+UPDATE nomeTabela SET nomeAtrib = valorAtrib WHERE condicao;
+
+UPDATE funcionario SET telefone = '8888-9999' WHERE cpf = '12345678911';
+
+UPDATE funcionario SET salario = salario+200, gratificacao = gratificacao+100 WHERE cidade_lotacao = 'Campina Grande' AND ultima_avaliacao = 'OTIMA';
+
+// RESTRIÇÕES DE CHECAGEM
+
+CREATE TABLE produto(
+    id_produto integer,
+    preco numeric,
+    CHECK (preco > 0)
+);
+
+CREATE TABLE produto(
+    id_produto integer,
+    preco numeric,
+    CONSTRAINT preco_valido_chk CHECK (preco > 0)
+);
+
+ALTER TABLE produto ADD CONSTRAINT produto_chk_preco_valido CHECK (preco > 0);
+
+// Limpar Banco de dados
+
+DROP OWNED BY CURRENT_USER;
+
+// IMPORTANTE!! 
+// lembrar que esse comando exclui TODO o bando de dados (lembrar de fazer backup antes)
+
+// Novos tipos de constraint 
+
+// UNIQUE
+// determina que dois valores de uma certa coluna não podem ser iguais
+
+CREATE TABLE pessoa(
+    cpf integer,
+    nome varchar(50) UNIQUE,
+    data_nasc date
+);
+
+CREATE TABLE pessoa(
+    cpf integer,
+    nome varchar(50),
+    data_nasc date,
+    UNIQUE(nome)
+);
+
+CREATE TABLE example(
+    a integer,
+    b integer,
+    c integer,
+    UNIQUE(a,c)
+);
+
+// EXCLUDE
+// verifica o id_veiculo com o operador "=" e o período de locação ( do tipo intervalo de tempo) com o operador de interseção "&&".
+
+ALTER TABLE locacao ADD CONSTRAINT locacao_excl EXCLUDE USING gist(
+    id_veiculo WITH =,
+    periodo WITH &&
+);
+
+
+
+
+
+
+
