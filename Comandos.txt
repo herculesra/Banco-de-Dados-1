@@ -1,3 +1,10 @@
+Acesso à VM e ao SGBD:
+
+ssh usuario@150.165.85.37 -p 45600
+
+psql -d usuario_db
+
+
 A seguir, lista de comandos vistos em sala de aula para SQL:
 
 // cria uma relação (nova tabela)

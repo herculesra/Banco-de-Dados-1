@@ -60,10 +60,15 @@ SELECT p.pname, d.dname FROM project AS p, department AS d WHERE p.dnum = d.dnum
 
 -- QUESTÃO 16
 
-SELECT p.pname, g.fname FROM project AS p, department AS d, employee AS g WHERE p.dnum = d.dnumber AND g.ssn = d.mgrssn;
+SELECT p.pname, g.fname FROM project AS p, department AS d, employee AS g WHERE p.dnum = d.dnumber AND g.ssn = d.mgrssn AND p.pnumber > 30;
 
 
+-- QUESTÃO 17
 
+SELECT p.pname, e.fname FROM project AS p, employee AS e, works_on WHERE e.ssn = essn AND pnumber = pno; 
 
+-- QUESTÃO 18
+
+SELECT e.fname, dpd.dependent_name, dpd.relationship FROM employee AS e, dependent AS dpd, works_on AS w, project AS p WHERE  e.ssn = w.essn AND p.pnumber = 91 AND w.pno = 91 AND dpd.essn = e.ssn;
 
 
