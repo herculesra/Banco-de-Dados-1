@@ -1,0 +1,1 @@
+# Repositório de exercícios e roteiros da disciplina de Banco de dados da UFCG 2019.1
